@@ -105,4 +105,4 @@ def to_cumulative_delayed(stream, quantity_block):
 
     dict_to_return = {"output": lst_to_return}
    
-    return dict_to_return
+    return lst_to_return
