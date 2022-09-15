@@ -64,4 +64,7 @@ def to_cumulative_delayed(stream, quantity_block):
     for i in sorted_final_answer:
         temp = [i[1][3], i[0], str(i[1][4]), str(i[1][5])]
         last.append(','.join(temp))
-    return last
+    
+    dict_to_return = {"output": last}
+    
+    return dict_to_return

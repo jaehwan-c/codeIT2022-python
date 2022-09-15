@@ -35,5 +35,7 @@ def to_cumulative(stream):
         for j in sorted(result[i]):
             answer += [j, str(int(result[i][j][0])), str(result[i][j][1])]
         final_answer.append(','.join(answer))
-    return final_answer
+        
+    dict_to_return = {"output": final_answer}    
+    return dict_to_return
     #raise Exception
