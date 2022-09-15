@@ -1,5 +1,6 @@
 import logging
 import json
+from this import d
 
 from flask import request, jsonify
 
@@ -18,53 +19,90 @@ def tickerStream2():
     return json.dumps(result)
 
 def to_cumulative_delayed(stream, quantity_block):
-    result = {}
-    for i in stream:
-        i = i.split(',')
-        if i[0] not in result:
-            result[i[0]] = {i[1]: [float(i[2]), float(i[2]) * float(i[3])]}
-        else:
-            if i[1] not in result[i[0]]:
-                result[i[0]][i[1]] = [float(i[2]), float(i[2]) * float(i[3])]
-            else:
-                result[i[0]][i[1]][0] += float(i[2])
-                result[i[0]][i[1]][1] += float(i[2]) * float(i[3])
 
-    final_answer = {}
-    for i in sorted(result):
-        for j in sorted(result[i]):
-            if j not in final_answer:
-                count = 0
-                cumulative = 0
-                delayed_count = 0
-                delayed_cumulative = 0
-                delayed_i = i
-            else:
-                count = final_answer[j][1]
-                cumulative = final_answer[j][2]
-                delayed_count = final_answer[j][4]
-                delayed_cumulative = final_answer[j][5]
-                delayed_i = final_answer[j][3]
-            for k in range(int(result[i][j][0])):
-                cumulative += (result[i][j][1] / result[i][j][0])
-                count += 1
-                if count % quantity_block == 0:
-                    delayed_count = count
-                    delayed_cumulative = cumulative
-                    delayed_i = i
-            final_answer[j] = [
-                i, count, cumulative, delayed_i, delayed_count,
-                delayed_cumulative
+    stream_div = list()
+    lst_to_return = list()
+
+    for i in range(len(stream)):
+        stream_div.append(stream[i].split(","))
+
+    stream_div.sort(
+        key=lambda x: (x[0], x[1]))  # sort by time first, then alphabetical order
+    
+    time_key = list()
+    value_key = list()
+    dict_to_print = dict()
+
+    for i in range(len(stream)):
+        stream_div[i][2] = int(float(stream_div[i][2]))
+        stream_div[i][3] = int(float(stream_div[i][2])) * float(stream_div[i][3])
+
+    for i in range(len(stream)):
+        if stream_div[i][0] in time_key:
+            index = time_key.index(stream_div[i][0])
+            value_key[index] += [
+                stream_div[i][1],
+                stream_div[i][2],
+                stream_div[i][3]
             ]
-
-    sorted_final_answer = sorted(final_answer.items(),
-                                 key=lambda item: item[1][3])
-
-    last = []
-    for i in sorted_final_answer:
-        temp = [i[1][3], i[0], str(i[1][4]), str(i[1][5])]
-        last.append(','.join(temp))
+            dict_to_print[str(time_key[index])] = list(value_key[index])
+        else:
+            time_key.append(stream_div[i][0])
+            index = time_key.index(stream_div[i][0])
+            if index == 0:
+                value_key.append([
+                    stream_div[i][j] for j in range(1, 4)
+                ])
+                dict_to_print[str(time_key[index])] = list(value_key[index])
+            else:
+                value_key.append(value_key[index - 1])
+                for j in range(0, len(value_key[0]) // 3):
+                    if value_key[-1][j * 3] == stream_div[i][1]:
+                        value_key[-1][j * 3 + 1] += stream_div[i][2]
+                        value_key[-1][j * 3 + 2] += stream_div[i][3]
+                    dict_to_print[str(time_key[index])] = list(value_key[index])
     
-    dict_to_return = {"output": last}
+    idx_lst = list()
+    sum_lst = list()
     
+    for i in time_key:
+        dict_to_print[i][2] = float("{:.1f}".format(float(dict_to_print[i][2])))
+    
+    for i in range(len(time_key)):
+        sum_lst.append(float(dict_to_print[time_key[i]][2]))
+        
+        if dict_to_print[time_key[i]][1] % quantity_block != 0:
+            remain = dict_to_print[time_key[i]][1] % quantity_block
+            dict_to_print[time_key[i]][1] = int(float(dict_to_print[time_key[i]][1])) // quantity_block
+            if dict_to_print[time_key[i]][1] == 0:
+                del(dict_to_print[time_key[i]])
+                continue
+            else:
+                dict_to_print[time_key[i]][2] -= sum_lst[-2]
+                dict_to_print[time_key[i]][2] = dict_to_print[time_key[i]][2] / stream_div[i][2]
+                dict_to_print[time_key[i]][2] = "{:.1f}".format(sum_lst[-2] + dict_to_print[time_key[i]][2] * (remain))
+        else:
+            dict_to_print[time_key[i]][1] = int(float(dict_to_print[time_key[i]][1])) // quantity_block
+        
+        if dict_to_print[time_key[i]][1] == 0:
+            del(dict_to_print[time_key[i]])
+            continue
+        if idx_lst == []:
+            idx_lst.append(dict_to_print[time_key[i]][1])
+        else:
+            if dict_to_print[time_key[i]][1] in idx_lst:
+                del(dict_to_print[time_key[i]])
+            else:
+                idx_lst.append(dict_to_print[time_key[i]][1])
+    
+    for i in time_key:
+        if i in dict_to_print:
+            dict_to_print[i][1] *= quantity_block
+    
+    for key, value in dict_to_print.items():
+        to_print = key, *value
+        lst_to_return.append(','.join([str(i) for i in to_print]))
+
+    dict_to_return = {"output": lst_to_return}
+   
     return dict_to_return
