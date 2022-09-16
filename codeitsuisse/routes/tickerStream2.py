@@ -68,4 +68,5 @@ def to_cumulative_delayed(stream, quantity_block):
                 ans += [k,str(cnt),str(cum)]
         if len(ans) > 1:
             temp.append(','.join(ans))
-    return temp
+    dict_to_return = {"output":temp}
+    return dict_to_return

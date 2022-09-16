@@ -16,7 +16,7 @@ def tickerStream1():
     logging.info("My result :{}".format(result))
     return json.dumps(result)
 
-def to_cumulative(stream: list):
+def to_cumulative(stream):
     
     result = {}
     for i in stream:
@@ -53,5 +53,6 @@ def to_cumulative(stream: list):
         answer = [i]
         for j in final_answer[i]:
             answer += [j, str(int(final_answer[i][j][0])), str(final_answer[i][j][1])]
-        solution.append(','.join(answer))    
-    return solution
+        solution.append(','.join(answer)) 
+    dict_to_return = {"output":solution} 
+    return dict_to_return
