@@ -64,4 +64,5 @@ def to_cumulative(stream: list):
         to_print = key, *value
         lst_to_return.append(','.join([str(i) for i in to_print]))
 
-    return lst_to_return
+    dict_to_return = {"output": lst_to_return}
+    return dict_to_return
