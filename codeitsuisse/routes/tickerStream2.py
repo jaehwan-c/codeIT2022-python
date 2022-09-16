@@ -33,6 +33,7 @@ def to_cumulative_delayed(stream, quantity_block):
 
     final_answer= {}
     temp = []
+    prev_count = {}
     for i in sorted(result):
         
         for j in sorted(result[i]):
@@ -59,13 +60,16 @@ def to_cumulative_delayed(stream, quantity_block):
                 i, count, round(cumulative,1), delayed_i, delayed_count,
                 round(delayed_cumulative,1)
             ]
-
         ans = [i]
         for k in final_answer:
+            
             cnt = final_answer[k][4]
             cum = final_answer[k][5]
-            if (cnt != 0) and (cnt%quantity_block==0):
+            if k not in prev_count:
+                prev_count[k] = 0
+            if (cnt != 0) and (cnt%quantity_block==0) and (cnt > prev_count[k]):
                 ans += [k,str(cnt),str(cum)]
+                prev_count[k] = cnt
         if len(ans) > 1:
             temp.append(','.join(ans))
     dict_to_return = {"output":temp}

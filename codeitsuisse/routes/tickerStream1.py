@@ -44,7 +44,7 @@ def to_cumulative(stream):
 
         for k in result[i]:
             if k not in tickers:
-                final_answer[i][k] = [result[i][k][0], result[i][k][1]]           
+                final_answer[i][k] = [result[i][k][0], result[i][k][1],1]           
                 tickers.add(k)
         prev_i = i       
           
@@ -52,7 +52,7 @@ def to_cumulative(stream):
     for i in final_answer:
         answer = [i]
         for j in final_answer[i]:
-            answer += [j, str(int(final_answer[i][j][0])), str(final_answer[i][j][1])]
+            answer += [j, str(int(final_answer[i][j][0])), str(round(final_answer[i][j][1],1))]
         solution.append(','.join(answer)) 
     dict_to_return = {"output":solution} 
     return dict_to_return
