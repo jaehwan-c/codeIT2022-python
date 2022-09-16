@@ -7,7 +7,7 @@ from codeitsuisse import app
 
 logger = logging.getLogger(__name__)
 
-@app.route('/tickerStream1', methods=['POST'])
+@app.route('/tickerStreamPart1', methods=['POST'])
 def tickerStream1():
     data = request.get_json()
     logging.info("data sent for evaluation {}".format(data))
@@ -16,43 +16,52 @@ def tickerStream1():
     logging.info("My result :{}".format(result))
     return json.dumps(result)
 
-def to_cumulative(stream):
+def to_cumulative(stream: list):
     
-    result = {}
-    for i in stream:
-        i = i.split(',')
-        if i[0] not in result:
-            result[i[0]] = {i[1]: [float(i[2]), float(i[2]) * float(i[3])]}
+    stream_div = list()
+    lst_to_return = list()
+
+    for i in range(len(stream)):
+        stream_div.append(stream[i].split(","))
+
+    stream_div.sort(
+        key=lambda x: (x[0], x[1]))  # sort by time first, then alphabetical order
+    
+    time_key = list()
+    value_key = list()
+    dict_to_print = dict()
+
+    for i in range(len(stream)):
+        stream_div[i][2] = int(float(stream_div[i][2]))
+        stream_div[i][3] = int(float(stream_div[i][2])) * float(stream_div[i][3])
+
+    for i in range(len(stream)):
+        if stream_div[i][0] in time_key:
+            index = time_key.index(stream_div[i][0])
+            value_key[index] += [
+                stream_div[i][1],
+                stream_div[i][2],
+                stream_div[i][3]
+            ]
+            dict_to_print[str(time_key[index])] = list(value_key[index])
         else:
-            if i[1] not in result[i[0]]:
-                result[i[0]][i[1]] = [float(i[2]), float(i[2]) * float(i[3])]
+            time_key.append(stream_div[i][0])
+            index = time_key.index(stream_div[i][0])
+            if index == 0:
+                value_key.append([
+                    stream_div[i][j] for j in range(1, 4)
+                ])
+                dict_to_print[str(time_key[index])] = list(value_key[index])
             else:
-                result[i[0]][i[1]][0] += float(i[2])
-                result[i[0]][i[1]][1] += float(i[2]) * float(i[3])
+                value_key.append(value_key[index - 1])
+                for j in range(0, len(value_key[0]) // 3):
+                    if value_key[-1][j * 3] == stream_div[i][1]:
+                        value_key[-1][j * 3 + 1] += stream_div[i][2]
+                        value_key[-1][j * 3 + 2] += stream_div[i][3]
+                dict_to_print[str(time_key[index])] = list(value_key[index])
+                
+    for key, value in dict_to_print.items():
+        to_print = key, *value
+        lst_to_return.append(','.join([str(i) for i in to_print]))
 
-    final_answer = {}
-    tickers = set()
-    for i in sorted(result):
-    
-        final_answer[i] = {}
-
-        for j in sorted(list(tickers)):
-            if j in result[i]:
-                final_answer[i][j] = [(final_answer[prev_i][j][0] + result[i][j][0]),(final_answer[prev_i][j][1] + result[i][j][1])]
-            else:
-                final_answer[i][j] = [final_answer[prev_i][j][0],final_answer[prev_i][j][1] ]
-
-        for k in result[i]:
-            if k not in tickers:
-                final_answer[i][k] = [result[i][k][0], result[i][k][1],1]           
-                tickers.add(k)
-        prev_i = i       
-          
-    solution = []
-    for i in final_answer:
-        answer = [i]
-        for j in final_answer[i]:
-            answer += [j, str(int(final_answer[i][j][0])), str(round(final_answer[i][j][1],1))]
-        solution.append(','.join(answer)) 
-    dict_to_return = {"output":solution} 
-    return dict_to_return
+    return lst_to_return
