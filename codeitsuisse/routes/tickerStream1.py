@@ -29,6 +29,7 @@ def to_cumulative(stream: list):
     
     time_key = list()
     value_key = list()
+    item_value = list()
     dict_to_print = dict()
 
     for i in range(len(stream)):
@@ -37,14 +38,23 @@ def to_cumulative(stream: list):
 
     for i in range(len(stream)):
         if stream_div[i][0] in time_key:
-            index = time_key.index(stream_div[i][0])
-            value_key[index] += [
-                stream_div[i][1],
-                stream_div[i][2],
-                stream_div[i][3]
-            ]
-            dict_to_print[str(time_key[index])] = list(value_key[index])
+            if stream_div[i][1] not in item_value:    
+                index = time_key.index(stream_div[i][0])
+                value_key[index] += [
+                    stream_div[i][1],
+                    stream_div[i][2],
+                    stream_div[i][3]
+                ]
+                dict_to_print[str(time_key[index])] = list(value_key[index])
+            else:
+                for j in range(len(value_key)):
+                    if stream_div[i][1] == value_key[j][0]:
+                        value_key[j][1] += stream_div[i][2]
+                        value_key[j][2] += stream_div[i][3]
+                        dict_to_print[str(time_key[index])] = list(value_key[index])
+                        continue
         else:
+            item_value.append(stream_div[i][1])
             time_key.append(stream_div[i][0])
             index = time_key.index(stream_div[i][0])
             if index == 0:
