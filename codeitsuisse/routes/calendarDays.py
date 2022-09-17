@@ -81,5 +81,5 @@ def calendar1(numbers):
     temp_solution = sorted(list(temp_solution))
     part2_solution = part2_solution + temp_solution
 
-    dict_to_return = {"part1": "","part2":part2_solution}
+    dict_to_return = {"part1": solution,"part2":part2_solution}
     return dict_to_return
