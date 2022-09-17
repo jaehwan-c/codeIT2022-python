@@ -79,12 +79,12 @@ def rubik_cube(ops, state):
             
         elif "B" in action[i]:
             if "i" in action[i]: #Bi
+                for j in range(3):
+                    final_state[0][0][j], final_state[3][j][2], final_state[5][2][2-j], final_state[1][2-j][0] = final_state[3][j][2], final_state[5][2][2-j], final_state[1][2-j][0], final_state[0][0][j]           
+            else: #B
                 for k in range(3):
                     for j in range(3):
-                        final_state[0][0][j], final_state[3][j][2], final_state[5][2][2-j], final_state[1][2-j][0] = final_state[3][j][2], final_state[5][2][2-j], final_state[1][2-j][0], final_state[0][0][j]           
-            else: #B
-                for j in range(3):
-                    final_state[0][0][j], final_state[3][j][2], final_state[5][2][2-j], final_state[1][0][2-j] = final_state[3][j][2], final_state[5][2][2-j], final_state[1][0][2-j], final_state[0][0][j]           
+                        final_state[0][0][j], final_state[3][j][2], final_state[5][2][2-j], final_state[1][0][2-j] = final_state[3][j][2], final_state[5][2][2-j], final_state[1][0][2-j], final_state[0][0][j]           
         
         else:
             if "i" in action[i]:             
@@ -103,3 +103,4 @@ def rubik_cube(ops, state):
     dict_to_return['d'] = final_state[5]
     
     return dict_to_return
+
