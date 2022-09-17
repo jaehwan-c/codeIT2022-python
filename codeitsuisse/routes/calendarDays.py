@@ -57,5 +57,5 @@ def calendar1(numbers):
                 if j == 7:
                     day_string += ','
 
-
-    return solution
+    dict_to_return = {"part1":solution,"part2":[]}
+    return dict_to_return
