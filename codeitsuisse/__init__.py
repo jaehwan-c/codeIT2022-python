@@ -5,3 +5,4 @@ import codeitsuisse.routes.tickerStream1
 import codeitsuisse.routes.tickerStream2
 import codeitsuisse.routes.cryptocollapz
 import codeitsuisse.routes.calendarDays
+import codeitsuisse.routes.rubiks
