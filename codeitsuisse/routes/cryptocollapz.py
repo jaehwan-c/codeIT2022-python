@@ -48,7 +48,11 @@ def crypto_func(data):
                         break
                     else:
                         dict_to_return[k] = max(temp_lst)
-           
+    
     for i in range(len(data)):
-        lst_to_return.append(dict_to_return[data[i]] for i in range(len(data)))
+        test_lst = list()
+        for j in range(len(data[i])):
+            test_lst.append(dict_to_return[data[i][j]])
+        lst_to_return.append(test_lst)
+
     return lst_to_return
