@@ -8,4 +8,5 @@ import codeitsuisse.routes.calendarDays
 import codeitsuisse.routes.reversle
 import codeitsuisse.routes.rubiks
 import codeitsuisse.routes.quordleKeyboard
-import codeitsuisse.routes.stig_warmu
+import codeitsuisse.routes.stig_warmup
+import codeitsuisse.routes.social_distancing
