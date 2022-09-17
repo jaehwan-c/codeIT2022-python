@@ -74,7 +74,7 @@ def calendar1(numbers):
             if len(str(j)) == 1:
                 yearMonth = str(whitespace) + '-0' + str(j)
             else:
-                yearMonth = str(whitespace) + str(j)  
+                yearMonth = str(whitespace) + '-' + str(j)  
             part2 = numpy.busday_offset(yearMonth, 0,roll='forward',weekmask=days_str[k])
             part2 = part2.astype(datetime)
             temp_solution.add(part2.timetuple().tm_yday)
