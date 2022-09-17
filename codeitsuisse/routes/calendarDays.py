@@ -1,5 +1,7 @@
 import logging
 import json
+import numpy
+import pandas
 from datetime import date
 
 from flask import request, jsonify
@@ -58,5 +60,23 @@ def calendar1(numbers):
                     day_string += ','
             solution += day_string
 
-    dict_to_return = {"part1":solution,"part2":[]}
+    for i in range(len(solution)):
+        if solution[i] == ' ':
+            whitespace = i
+            break
+
+    days_str = {1:'Mon',2:'Tue',3:'Wed',4:'Thu',5:'Fri',6:'Sat',7:'Sun'}
+    whitespace = whitespace + 2001
+    part2_solution = [whitespace]
+    for j in range(1,13):
+        for k in list(month_calendar[j]):
+            if len(str(j)) == 1:
+                yearMonth = str(whitespace) + '-0' + str(j)
+            else:
+                yearMonth = str(whitespace) + str(j)  
+            part2 = numpy.busday_offset(yearMonth, 0,roll='forward',weekmask=days_str[k])
+            part2 = pandas.to_datetime(part2)
+            part2_solution.append(part2.timetuple().tm_yday)
+
+    dict_to_return = {"part1":solution,"part2":part2_solution}
     return dict_to_return
