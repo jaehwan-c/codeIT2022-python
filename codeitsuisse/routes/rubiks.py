@@ -54,7 +54,7 @@ def rubik_cube(ops, state):
             if "i" in action[i]:
                 for k in range(3):
                     for j in range(3): #L
-                        final_state[0][j][0], final_state[4][2-j][2], final_state[5][j][0], final_state[2][j][0] = final_state[4][2-j][2], final_state[5][j][0], final_state[2][j][0], final_state[0][j][0]
+                        final_state[0][j][0], final_state[4][2-j][0], final_state[5][j][0], final_state[2][j][0] = final_state[4][2-j][0], final_state[5][j][0], final_state[2][j][0], final_state[0][j][0]
             else:
                 for j in range(3): #L
                     final_state[0][j][0], final_state[4][2-j][2], final_state[5][j][0], final_state[2][j][0] = final_state[4][2-j][2], final_state[5][j][0], final_state[2][j][0], final_state[0][j][0]
@@ -75,7 +75,7 @@ def rubik_cube(ops, state):
                         final_state[0][j][2], final_state[4][2-j][2], final_state[5][j][2], final_state[2][j][2] = final_state[4][2-j][2], final_state[5][j][2], final_state[2][j][2], final_state[0][j][2]
             else:
                 for j in range(3): #R
-                    final_state[0][j][2], final_state[4][2-j][2], final_state[5][j][2], final_state[2][j][2] = final_state[4][2-j][2], final_state[5][j][2], final_state[2][j][2], final_state[0][j][2]
+                    final_state[0][j][2], final_state[4][2-j][0], final_state[5][j][2], final_state[2][j][2] = final_state[4][2-j][0], final_state[5][j][2], final_state[2][j][2], final_state[0][j][2]
             
         elif "B" in action[i]:
             if "i" in action[i]: #Bi
