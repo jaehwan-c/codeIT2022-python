@@ -18,23 +18,29 @@ def cryptocollapz():
 
 def crypto_func(data):
     lst_to_return = list()
+    dict_to_return = dict()
     for i in range(len(data)):
         temp_lst = list()
         for j in range(len(data[i])):
-            temp_lst.append(max_value_checker(data[i][j]))
+            lst = []    
+            num = data[i][j]
+            if i == 1 or i == 2:
+                return 4
+            else:
+                while num not in lst:
+                    if num % 2 == 0:
+                        lst.append(num)
+                        num = num // 2
+                        if num in dict_to_return.keys():
+                            temp_lst.append(dict_to_return[num])
+                    else:
+                        lst.append(num)
+                        num = 3 * num + 1
+                        if num in dict_to_return.keys():
+                            temp_lst.append(dict_to_return[num])
+                else:
+                    dict_to_return[data[i][j]] = max(lst)
+                    temp_lst.append(max(lst))
+            
         lst_to_return.append(temp_lst)
-    
     return lst_to_return
-
-def max_value_checker(i):
-    index = i
-    lst = []
-    while index not in lst:
-        if index % 2 == 0:
-            lst.append(index)
-            index = index // 2
-        else:
-            lst.append(index)
-            index = index * 3 + 1
-    else:
-        return max(lst)
