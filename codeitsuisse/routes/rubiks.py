@@ -70,21 +70,21 @@ def rubik_cube(ops, state):
             
         elif "R" in action[i]:
             if "i" in action[i]:
-                for j in range(3): #R
-                    final_state[0][j][2], final_state[4][2-j][2], final_state[5][j][2], final_state[2][j][2] = final_state[4][2-j][2], final_state[5][j][2], final_state[2][j][2], final_state[0][j][2]
-            else:
                 for k in range(3):
                     for j in range(3): #R
-                        final_state[0][j][2], final_state[4][2-j][0], final_state[5][j][2], final_state[2][j][2] = final_state[4][2-j][0], final_state[5][j][2], final_state[2][j][2], final_state[0][j][2]
+                        final_state[0][j][2], final_state[4][2-j][2], final_state[5][j][2], final_state[2][j][2] = final_state[4][2-j][2], final_state[5][j][2], final_state[2][j][2], final_state[0][j][2]
+            else:
+                for j in range(3): #R
+                    final_state[0][j][2], final_state[4][2-j][0], final_state[5][j][2], final_state[2][j][2] = final_state[4][2-j][0], final_state[5][j][2], final_state[2][j][2], final_state[0][j][2]
             
         elif "B" in action[i]:
             if "i" in action[i]: #Bi
-                for j in range(3):
-                    final_state[0][0][j], final_state[3][j][2], final_state[5][2][2-j], final_state[1][2-j][0] = final_state[3][j][2], final_state[5][2][2-j], final_state[1][2-j][0], final_state[0][0][j]           
-            else: #B
                 for k in range(3):
                     for j in range(3):
-                        final_state[0][0][j], final_state[3][j][2], final_state[5][2][2-j], final_state[1][0][2-j] = final_state[3][j][2], final_state[5][2][2-j], final_state[1][0][2-j], final_state[0][0][j]           
+                        final_state[0][0][j], final_state[3][j][2], final_state[5][2][2-j], final_state[1][2-j][0] = final_state[3][j][2], final_state[5][2][2-j], final_state[1][2-j][0], final_state[0][0][j]           
+            else: #B
+                for j in range(3):
+                    final_state[0][0][j], final_state[3][j][2], final_state[5][2][2-j], final_state[1][0][2-j] = final_state[3][j][2], final_state[5][2][2-j], final_state[1][0][2-j], final_state[0][0][j]           
         
         else:
             if "i" in action[i]:             
