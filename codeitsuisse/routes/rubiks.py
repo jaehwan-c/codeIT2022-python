@@ -21,7 +21,8 @@ def rubik_cube(ops, state):
     ops = list(ops)
     action = list()
     
-    final_state = [[] for _ in range(6)]
+    dict_to_return = dict()
+    final_state = state
     
     for i in range(len(ops)):
         if ops[i] != "i":
@@ -33,74 +34,75 @@ def rubik_cube(ops, state):
             else:
                 action.append(ops[i])
         else:
-            continue          
-    
-    final_state[0] = state['u']    
-    final_state[1] = state['l']
-    final_state[2] = state['f']
-    final_state[3] = state['r']
-    final_state[4] = state['b']
-    final_state[5] = state['d']
-
-    for i in range(len(action)):
-        if "U" in action[i]:
-            if "i" in action[i]: #Ui
-                for k in range(3):
-                    final_state[1][0], final_state[2][0], final_state[3][0], final_state[4][0] = final_state[2][0], final_state[3][0], final_state[4][0], final_state[1][0]
-            else: #U
-                final_state[1][0], final_state[2][0], final_state[3][0], final_state[4][0] = final_state[2][0], final_state[3][0], final_state[4][0], final_state[1][0]
-                
-        elif "L" in action[i]:
-            if "i" in action[i]:
-                for k in range(3):
-                    for j in range(3): #L
-                        final_state[0][j][0], final_state[4][2-j][0], final_state[5][j][0], final_state[2][j][0] = final_state[4][2-j][0], final_state[5][j][0], final_state[2][j][0], final_state[0][j][0]
-            else:
-                for j in range(3): #L
-                    final_state[0][j][0], final_state[4][2-j][2], final_state[5][j][0], final_state[2][j][0] = final_state[4][2-j][2], final_state[5][j][0], final_state[2][j][0], final_state[0][j][0]
-
-        elif "F" in action[i]:
-            if "i" in action[i]: #Fi
-                for k in range(3):
-                    for j in range(3):
-                        final_state[5][0][j], final_state[3][2-j][0], final_state[0][2][2-j], final_state[1][j][2] = final_state[3][2-j][0], final_state[0][2][2-j], final_state[1][j][2], final_state[5][0][j]
-            else:
-                for j in range(3):
-                    final_state[5][0][j], final_state[3][2-j][0], final_state[0][2][2-j], final_state[1][j][2] = final_state[3][2-j][0], final_state[0][2][2-j], final_state[1][j][2], final_state[5][0][j]
-            
-        elif "R" in action[i]:
-            if "i" in action[i]:
-                for k in range(3):
-                    for j in range(3): #R
-                        final_state[0][j][2], final_state[4][2-j][2], final_state[5][j][2], final_state[2][j][2] = final_state[4][2-j][2], final_state[5][j][2], final_state[2][j][2], final_state[0][j][2]
-            else:
-                for j in range(3): #R
-                    final_state[0][j][2], final_state[4][2-j][0], final_state[5][j][2], final_state[2][j][2] = final_state[4][2-j][0], final_state[5][j][2], final_state[2][j][2], final_state[0][j][2]
-            
-        elif "B" in action[i]:
-            if "i" in action[i]: #Bi
-                for k in range(3):
-                    for j in range(3):
-                        final_state[0][0][j], final_state[3][j][2], final_state[5][2][2-j], final_state[1][2-j][0] = final_state[3][j][2], final_state[5][2][2-j], final_state[1][2-j][0], final_state[0][0][j]           
-            else: #B
-                for j in range(3):
-                    final_state[0][0][j], final_state[3][j][2], final_state[5][2][2-j], final_state[1][0][2-j] = final_state[3][j][2], final_state[5][2][2-j], final_state[1][0][2-j], final_state[0][0][j]           
+            continue
         
+    for i in range(len(action)):
+        direction = ""
+        if 'i' in action[i]:
+            direction = '-'
         else:
-            if "i" in action[i]:             
-                for k in range(3):
-                    final_state[1][2], final_state[2][2], final_state[3][2], final_state[4][2] = final_state[4][2], final_state[1][2], final_state[2][2], final_state[3][2]
-            else:
-                final_state[1][2], final_state[2][2], final_state[3][2], final_state[4][2] = final_state[4][2], final_state[1][2], final_state[2][2], final_state[3][2]
-    
-    dict_to_return = dict()
-    
-    dict_to_return['u'] = final_state[0]
-    dict_to_return['l'] = final_state[1]
-    dict_to_return['f'] = final_state[2]
-    dict_to_return['r'] = final_state[3]
-    dict_to_return['b'] = final_state[4]
-    dict_to_return['d'] = final_state[5]
+            direction = '+'
+            
+        if "L" in action[i]:
+            if direction == '-':
+                 final_state['u'][0][0],  final_state['b'][-1][-1],  final_state['d'][0][0],  final_state['f'][0][0] =  final_state['f'][0][0],  final_state['u'][0][0],  final_state['b'][-1][-1],  final_state['d'][0][0]
+                 final_state['u'][1][0],  final_state['b'][-2][-1],  final_state['d'][1][0],  final_state['f'][1][0] =  final_state['f'][1][0],  final_state['u'][1][0],  final_state['b'][-2][-1],  final_state['d'][1][0]
+                 final_state['u'][2][0],  final_state['b'][-3][-1],  final_state['d'][2][0],  final_state['f'][2][0] =  final_state['f'][2][0],  final_state['u'][2][0],  final_state['b'][-3][-1],  final_state['d'][2][0]
+            elif direction == '+':
+                 final_state['u'][0][0],  final_state['f'][0][0],  final_state['d'][0][0],  final_state['b'][-1][-1] =  final_state['b'][-1][-1],  final_state['u'][0][0],  final_state['f'][0][0],  final_state['d'][0][0]
+                 final_state['u'][1][0],  final_state['f'][1][0],  final_state['d'][1][0],  final_state['b'][-2][-1] =  final_state['b'][-2][-1],  final_state['u'][1][0],  final_state['f'][1][0],  final_state['d'][1][0]
+                 final_state['u'][2][0],  final_state['f'][2][0],  final_state['d'][2][0],  final_state['b'][-3][-1] =  final_state['b'][-3][-1],  final_state['u'][2][0],  final_state['f'][2][0],  final_state['d'][2][0]
+        elif 'R' in action[i]:
+            if direction == '-':
+                 final_state['u'][0][-1],  final_state['f'][0][-1],  final_state['d'][0][-1],  final_state['b'][-1][0] =  final_state['b'][-1][0],  final_state['u'][0][-1],  final_state['f'][0][-1],  final_state['d'][0][-1]
+                 final_state['u'][1][-1],  final_state['f'][1][-1],  final_state['d'][1][-1],  final_state['b'][-2][0] =  final_state['b'][-2][0],  final_state['u'][1][-1],  final_state['f'][1][-1],  final_state['d'][1][-1]
+                 final_state['u'][2][-1],  final_state['f'][2][-1],  final_state['d'][2][-1],  final_state['b'][-3][0] =  final_state['b'][-3][0],  final_state['u'][2][-1],  final_state['f'][2][-1],  final_state['d'][2][-1]
+            elif direction=='+':
+                 final_state['u'][0][-1],  final_state['b'][-1][0],  final_state['d'][0][-1],  final_state['f'][0][-1] =  final_state['f'][0][-1],  final_state['u'][0][-1],  final_state['b'][-1][0],  final_state['d'][0][-1]
+                 final_state['u'][1][-1],  final_state['b'][-2][0],  final_state['d'][1][-1],  final_state['f'][1][-1] =  final_state['f'][1][-1],  final_state['u'][1][-1],  final_state['b'][-2][0],  final_state['d'][1][-1]
+                 final_state['u'][2][-1],  final_state['b'][-3][0],  final_state['d'][2][-1],  final_state['f'][2][-1] =  final_state['f'][2][-1],  final_state['u'][2][-1],  final_state['b'][-3][0],  final_state['d'][2][-1]
+        elif 'F' in action[i]:
+            if direction == '-':
+                 final_state['u'][-1][0],  final_state['l'][-1][-1],  final_state['d'][0][-1],  final_state['r'][0][0] =  final_state['r'][0][0],  final_state['u'][-1][0], final_state['l'][-1][-1], final_state['d'][0][-1]
+                 final_state['u'][-1][1],  final_state['l'][-2][-1],  final_state['d'][0][-2],  final_state['r'][1][0] =  final_state['r'][1][0],  final_state['u'][-1][1], final_state['l'][-2][-1], final_state['d'][0][-2]
+                 final_state['u'][-1][2],  final_state['l'][-3][-1],  final_state['d'][0][-3],  final_state['r'][2][0] =  final_state['r'][2][0], final_state['u'][-1][2], final_state['l'][-3][-1], final_state['d'][0][-3]
+            elif direction=='+':
+                 final_state['u'][-1][0],  final_state['r'][0][0],  final_state['d'][0][-1],  final_state['l'][-1][-1] =  final_state['l'][-1][-1], final_state['u'][-1][0], final_state['r'][0][0], final_state['d'][0][-1]
+                 final_state['u'][-1][1],  final_state['r'][1][0],  final_state['d'][0][-2],  final_state['l'][-2][-1] =  final_state['l'][-2][-1], final_state['u'][-1][1], final_state['r'][1][0], final_state['d'][0][-2]
+                 final_state['u'][-1][2],  final_state['r'][2][0],  final_state['d'][0][-3],  final_state['l'][-3][-1] =  final_state['l'][-3][-1], final_state['u'][-1][2], final_state['r'][2][0], final_state['d'][0][-3]
+        elif 'B' in action[i]:
+            if direction == '-':
+                 final_state['u'][0][-1],  final_state['r'][-1][-1],  final_state['d'][-1][0],  final_state['l'][0][0] =  final_state['l'][0][0], final_state['u'][0][-1], final_state['r'][-1][-1], final_state['d'][-1][0]
+                 final_state['u'][0][-2],  final_state['r'][-2][-1],  final_state['d'][-1][1],  final_state['l'][1][0] =  final_state['l'][1][0], final_state['u'][0][-2], final_state['r'][-2][-1], final_state['d'][-1][1]
+                 final_state['u'][0][-3],  final_state['r'][-3][-1],  final_state['d'][-1][2],  final_state['l'][2][0] =  final_state['l'][2][0], final_state['u'][0][-3], final_state['r'][-3][-1], final_state['d'][-1][2]
+            elif direction == '+':
+                 final_state['u'][0][-1],  final_state['l'][0][0],  final_state['d'][-1][0], final_state['r'][-1][-1] =  final_state['r'][-1][-1], final_state['u'][0][-1], final_state['l'][0][0], final_state['d'][-1][0]
+                 final_state['u'][0][-2],  final_state['l'][1][0],  final_state['d'][-1][1], final_state['r'][-2][-1] =  final_state['r'][-2][-1], final_state['u'][0][-2], final_state['l'][1][0], final_state['d'][-1][1]
+                 final_state['u'][0][-3],  final_state['l'][2][0], final_state['d'][-1][2], final_state['r'][-3][-1] =  final_state['r'][-3][-1], final_state['u'][0][-3], final_state['l'][2][0], final_state['d'][-1][2]
+        elif 'U' in action[i]:
+            if direction == '-':
+                 final_state['f'][0][0],  final_state['r'][0][0], final_state['b'][0][0], final_state['l'][0][0] =  final_state['l'][0][0], final_state['f'][0][0], final_state['r'][0][0], final_state['b'][0][0]
+                 final_state['f'][0][1],  final_state['r'][0][1], final_state['b'][0][1], final_state['l'][0][1] =  final_state['l'][0][1], final_state['f'][0][1], final_state['r'][0][1], final_state['b'][0][1]
+                 final_state['f'][0][2],  final_state['r'][0][2], final_state['b'][0][2], final_state['l'][0][2] =  final_state['l'][0][2], final_state['f'][0][2], final_state['r'][0][2], final_state['b'][0][2]
+            elif direction=='+':
+                 final_state['f'][0][0],  final_state['l'][0][0], final_state['b'][0][0], final_state['r'][0][0] =  final_state['r'][0][0], final_state['f'][0][0], final_state['l'][0][0], final_state['b'][0][0]
+                 final_state['f'][0][1],  final_state['l'][0][1], final_state['b'][0][1], final_state['r'][0][1] =  final_state['r'][0][1], final_state['f'][0][1], final_state['l'][0][1], final_state['b'][0][1]
+                 final_state['f'][0][2],  final_state['l'][0][2], final_state['b'][0][2], final_state['r'][0][2] =  final_state['r'][0][2], final_state['f'][0][2], final_state['l'][0][2], final_state['b'][0][2]
+        elif 'D' in action[i]:
+            if direction == '-':
+                 final_state['f'][-1][0],  final_state['l'][-1][0], final_state['b'][-1][0], final_state['r'][-1][0] =  final_state['r'][-1][0], final_state['f'][-1][0], final_state['l'][-1][0], final_state['b'][-1][0]
+                 final_state['f'][-1][1],  final_state['l'][-1][1], final_state['b'][-1][1], final_state['r'][-1][1] =  final_state['r'][-1][1], final_state['f'][-1][1], final_state['l'][-1][1], final_state['b'][-1][1]
+                 final_state['f'][-1][2],  final_state['l'][-1][2], final_state['b'][-1][2], final_state['r'][-1][2] =  final_state['r'][-1][2], final_state['f'][-1][2], final_state['l'][-1][2], final_state['b'][-1][2]
+            elif direction == '+':
+                 final_state['f'][-1][0],  final_state['r'][-1][0], final_state['b'][-1][0], final_state['l'][-1][0] =  final_state['l'][-1][0], final_state['f'][-1][0],  final_state['r'][-1][0],  final_state['b'][-1][0]
+                 final_state['f'][-1][1],  final_state['r'][-1][1], final_state['b'][-1][1], final_state['l'][-1][1] =  final_state['l'][-1][1], final_state['f'][-1][1],  final_state['r'][-1][1], final_state['b'][-1][1]
+                 final_state['f'][-1][2],  final_state['r'][-1][2], final_state['b'][-1][2], final_state['l'][-1][2] =  final_state['l'][-1][2], final_state['f'][-1][2],  final_state['r'][-1][2], final_state['b'][-1][2]
+       
+    dict_to_return['u'] = final_state['u']
+    dict_to_return['l'] = final_state['l']
+    dict_to_return['f'] = final_state["f"]
+    dict_to_return['r'] = final_state["r"]
+    dict_to_return['b'] = final_state["b"]
+    dict_to_return['d'] = final_state["d"]
     
     return dict_to_return
-
