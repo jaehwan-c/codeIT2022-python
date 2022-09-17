@@ -10,4 +10,5 @@ import codeitsuisse.routes.rubiks
 import codeitsuisse.routes.quordleKeyboard
 import codeitsuisse.routes.instantiateDNSLookup
 import codeitsuisse.routes.simulateQuery
+import codeitsuisse.routes.stig_warmup
 
