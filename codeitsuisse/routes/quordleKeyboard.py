@@ -20,8 +20,10 @@ def quordleKeyboard():
 
 def keyboard(answers, attempts, numbers):
     i = 9
+    if len(attempts) < 9:
+        i = i - (9-len(attempts))
     alphabet = {}
-    print(set(''.join(answers)))
+    #print(set(''.join(answers)))
     for attempt in attempts:
         if attempt in answers:
             answers.remove(attempt)
