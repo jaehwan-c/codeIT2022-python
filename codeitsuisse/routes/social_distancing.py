@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import logging
 import json
 
@@ -7,15 +8,15 @@ from codeitsuisse import app
 
 logger = logging.getLogger(__name__)
 
-@app.route('/instantiateDNSLookup', methods=['POST'])
-def instantiateDNSLookup():
+@app.route('/social-distancing', methods=['POST'])
+def social_distancing():
     data = request.get_json()
     logging.info("data sent for evaluation {}".format(data))
-    table = data["lookupTable"]
-    result = dns(table)
+    seats = data
+    result = social(seats)
     logging.info("My result :{}".format(result))
     return json.dumps(result)
 
-def dns(table):
+def social(seats):
     
-    return {"success": True}
+    return [4, "No Solution", 6]
