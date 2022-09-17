@@ -35,5 +35,28 @@ def keyboard(answers, attempts, numbers):
 
     alphabet = dict(sorted(alphabet.items()))
     part1 = ''.join(list(alphabet.values()))
-    dict_to_return = {"part1": part1,"part2": ""}  
+
+    chunks = []
+    for i in range(0, len(numbers),5):
+        chunk = numbers[i:i + 5]
+        chunks.append(chunk)
+
+    binary = []
+    for chunk in chunks:
+        temp = []
+        for c in chunk:
+            if str(c) in part1:
+                temp.append('1')
+            else:
+                temp.append('0')
+        binary.append(''.join(temp))
+    art2_alphabet = []
+    for b in binary:
+        part2_alphabet.append(chr(int(b,2)+64))
+
+    part2_alphabet = ''.join(part2_alphabet)
+    for alpha in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+        if alpha not in alphabet:
+            part2_alphabet += alpha
+    dict_to_return = {"part1": part1,"part2": part2_alphabet} 
     return dict_to_return
