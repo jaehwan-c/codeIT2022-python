@@ -1,8 +1,8 @@
 import logging
 import json
 import numpy
-import pandas
 from datetime import date
+from datetime import datetime
 
 from flask import request, jsonify
 
@@ -75,7 +75,7 @@ def calendar1(numbers):
             else:
                 yearMonth = str(whitespace) + str(j)  
             part2 = numpy.busday_offset(yearMonth, 0,roll='forward',weekmask=days_str[k])
-            part2 = pandas.to_datetime(part2)
+            part2 = part2.astype(datetime)
             part2_solution.append(part2.timetuple().tm_yday)
 
     dict_to_return = {"part1":solution,"part2":part2_solution}
