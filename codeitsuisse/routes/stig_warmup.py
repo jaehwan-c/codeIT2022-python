@@ -20,19 +20,21 @@ def stig_warmup():
 
 def warmup_stig(questions, maxRating):
     
-    lower_int = questions[0]['lower']
-    upper_int = questions[0]['upper']
     lst_to_return = list()
     
-    gap = upper_int - lower_int + 1
-    p = gap // math.gcd(gap, maxRating)
-    q = maxRating // math.gcd(gap, maxRating)
+    for i in range(len(questions)):    
+        lower_int = questions[i]['lower']
+        upper_int = questions[i]['upper']
     
-    dict_to_return = dict()
+        gap = upper_int - lower_int + 1
+        p = gap // math.gcd(gap, maxRating)
+        q = maxRating // math.gcd(gap, maxRating)
     
-    dict_to_return['p'] = p
-    dict_to_return['q'] = q
+        dict_to_return = dict()
     
-    lst_to_return.append(dict_to_return)
+        dict_to_return['p'] = p
+        dict_to_return['q'] = q
     
-    return dict_to_return
+        lst_to_return.append(dict_to_return)
+    
+    return lst_to_return
