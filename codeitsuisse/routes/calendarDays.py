@@ -68,6 +68,7 @@ def calendar1(numbers):
     days_str = {1:'Mon',2:'Tue',3:'Wed',4:'Thu',5:'Fri',6:'Sat',7:'Sun'}
     whitespace = whitespace + 2001
     part2_solution = [whitespace]
+    temp_solution = set()
     for j in range(1,13):
         for k in list(month_calendar[j]):
             if len(str(j)) == 1:
@@ -76,7 +77,9 @@ def calendar1(numbers):
                 yearMonth = str(whitespace) + str(j)  
             part2 = numpy.busday_offset(yearMonth, 0,roll='forward',weekmask=days_str[k])
             part2 = part2.astype(datetime)
-            part2_solution.append(part2.timetuple().tm_yday)
+            temp_solution.add(part2.timetuple().tm_yday)
+    temp_solution = sorted(list(temp_solution))
+    part2_solution = part2_solution + temp_solution
 
     dict_to_return = {"part1":solution,"part2":part2_solution}
     return dict_to_return
