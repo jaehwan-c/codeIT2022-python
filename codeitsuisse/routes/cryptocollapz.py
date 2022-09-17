@@ -1,5 +1,6 @@
 import logging
 import json
+from tkinter.tix import ExFileSelectBox
 
 from flask import request, jsonify
 
@@ -29,12 +30,15 @@ def crypto_func(data):
 def max_value_checker(i):
     index = i
     lst = []
-    while index not in lst:
-        if index % 2 == 0:
-            lst.append(index)
-            index = index // 2
-        else:
-            lst.append(index)
-            index = index * 3 + 1
+    if i == 1 or i == 2:
+        return 4
     else:
-        return max(lst)
+        while index != 1:
+            if index % 2 == 0:
+                lst.append(index)
+                index = index // 2
+            else:
+                lst.append(index)
+                index = index * 3 + 1
+        else:
+            return max(lst)
