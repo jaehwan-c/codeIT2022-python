@@ -45,9 +45,9 @@ def rubik_cube(ops, state):
     for i in range(len(action)):
         if "U" in action[i]:
             if "i" in action[i]: #Ui
-                final_state[1][0], final_state[2][0], final_state[3][0], final_state[4][0] = final_state[4][0], final_state[1][0], final_state[2][0], final_state[3][0]
-            else: #U
                 final_state[1][0], final_state[2][0], final_state[3][0], final_state[4][0] = final_state[2][0], final_state[3][0], final_state[4][0], final_state[1][0]
+            else: #U
+                final_state[1][0], final_state[2][0], final_state[3][0], final_state[4][0] = final_state[4][0], final_state[1][0], final_state[2][0], final_state[3][0]
                 
         elif "L" in action[i]:
             if "i" in action[i]:
