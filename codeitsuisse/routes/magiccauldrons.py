@@ -31,18 +31,25 @@ def cell(data_cell):
         total_flow = flow_rate * time
         while n <= row_number:
             total_size = size * (n*(n+1)/2)
+        
             if total_flow > total_size:
                 n += 1
-            amount_in_depth = total_flow - (size*(((n-1)*(n-1+1))/2))
-            time_in_n = amount_in_depth / flow_rate
-            flow_rate_at_n = flow_rate / (2**(n-1))
+            flow_rate_at_n = flow_rate / (2**(n-1)) #20
+            if total_flow > size:
+                amount_in_depth = total_flow - (size*(((n-1)*(n-1+1))/2))
+            else:
+                amount_in_depth = total_flow #20
+                n += 1
+            time_in_n = amount_in_depth / flow_rate #1
+        
             if (column_number == 0) or (column_number == n):
-                water_at_cell = flow_rate_at_n * time_in_n
+                water_at_cell = flow_rate_at_n * time_in_n #20
             else:
                 water_at_cell = flow_rate_at_n * time_in_n * (n-1)
         return water_at_cell
     
     list_to_return = []
+    
     for i in data_cell:
         solution = {}
         part1_sol = part1(i["part1"])
