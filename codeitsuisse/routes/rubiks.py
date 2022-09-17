@@ -88,4 +88,14 @@ def rubik_cube(ops, state):
                 final_state[1][2], final_state[2][2], final_state[3][2], final_state[4][2] = final_state[4][2], final_state[1][2], final_state[2][2], final_state[3][2]
         
         print(final_state)
-    return final_state
+    
+    dict_to_return = dict()
+    
+    dict_to_return['u'] = final_state[0]
+    dict_to_return['l'] = final_state[1]
+    dict_to_return['f'] = final_state[2]
+    dict_to_return['r'] = final_state[3]
+    dict_to_return['b'] = final_state[4]
+    dict_to_return['d'] = final_state[5]
+    
+    return dict_to_return
