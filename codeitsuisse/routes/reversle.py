@@ -20,5 +20,5 @@ def reversle():
 def brackets(length, attemps):
     
 
-    dict_to_return = {"equation": ["9","3","/","4","^","=","8","1"], "info":[length,attemps]}
+    dict_to_return = {"equation": ["9","3","/","4","^","=","8","1"]}
     return dict_to_return
