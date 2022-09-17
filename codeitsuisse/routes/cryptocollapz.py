@@ -17,30 +17,28 @@ def cryptocollapz():
     return json.dumps(result)
 
 def crypto_func(data):
-    lst_to_return = list()
-    dict_to_return = dict()
-    for i in range(len(data)):
-        temp_lst = list()
-        for j in range(len(data[i])):
-            lst = []    
-            num = data[i][j]
-            if i == 1 or i == 2:
-                return 4
+    
+    def coin(i,max_value):
+        temp = 0
+        if i%2 == 0:
+            if ((i&(i-1))==0) and (i>2):
+                if i > max_value:
+                    max_value = i
+                return max_value
             else:
-                while num not in lst:
-                    if num % 2 == 0:
-                        lst.append(num)
-                        num = num // 2
-                        if num in dict_to_return.keys():
-                            temp_lst.append(dict_to_return[num])
-                    else:
-                        lst.append(num)
-                        num = 3 * num + 1
-                        if num in dict_to_return.keys():
-                            temp_lst.append(dict_to_return[num])
-                else:
-                    dict_to_return[data[i][j]] = max(lst)
-                    temp_lst.append(max(lst))
-            
-        lst_to_return.append(temp_lst)
-    return lst_to_return
+                if i > max_value:
+                    max_value = i
+                return coin(i//2,max_value)
+        elif i%2 == 1:
+            if i > max_value:
+                max_value = i
+            return coin((i*3)+1,max_value)
+    
+    solution = []   
+    for i in data:
+        temp = []
+        for j in i:
+            temp.append(coin(j,0))
+        solution.append(temp)
+        
+    return solution
