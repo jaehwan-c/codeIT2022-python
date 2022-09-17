@@ -1,5 +1,8 @@
 import logging
 import json
+import numpy
+from datetime import date
+from datetime import datetime
 
 from flask import request, jsonify
 
@@ -7,15 +10,15 @@ from codeitsuisse import app
 
 logger = logging.getLogger(__name__)
 
-@app.route('/social-distancing', methods=['POST'])
-def social_distancing():
+@app.route('/magiccauldrons', methods=['POST'])
+def magiccauldrons():
     data = request.get_json()
     logging.info("data sent for evaluation {}".format(data))
-    seats = data
-    result = social(seats)
+    data_cell = data
+    result = cell(data_cell)
     logging.info("My result :{}".format(result))
     return json.dumps(result)
 
-def social(seats):
+def cell(data_cell):
     
-    return [4, "No Solution", 6]
+    return data
