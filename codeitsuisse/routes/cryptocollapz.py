@@ -17,28 +17,42 @@ def cryptocollapz():
     return json.dumps(result)
 
 def crypto_func(data):
+    lst_to_return = list()
+    dict_to_return = dict()
     
-    def coin(i,max_value):
-        temp = 0
-        if i%2 == 0:
-            if ((i&(i-1))==0) and (i>2):
-                if i > max_value:
-                    max_value = i
-                return max_value
+    dict_to_return[1] = 4
+    dict_to_return[2] = 4
+    for i in range(len(data)):
+        for j in range(len(data[i])):
+            temp_lst = list()
+            k = data[i][j]
+            
+            while k > 2:
+                
+                temp_lst.append(k)
+                
+                if k%2 == 0:
+                    k //= 2
+                else:
+                    k = k*3 + 1
             else:
-                if i > max_value:
-                    max_value = i
-                return coin(i//2,max_value)
-        elif i%2 == 1:
-            if i > max_value:
-                max_value = i
-            return coin((i*3)+1,max_value)
-    
-    solution = []   
-    for i in data:
-        temp = []
-        for j in i:
-            temp.append(coin(j,0))
-        solution.append(temp)
-        
-    return solution
+                for k in temp_lst:
+                    if k in dict_to_return:
+                        if max(temp_lst) > dict_to_return[k]:
+                            dict_to_return[data[i][j]] = max(temp_lst)
+                        else:                        
+                            dict_to_return[data[i][j]] = dict_to_return[k]
+                            break
+                    elif k == max(temp_lst):
+                        dict_to_return[k] = max(temp_lst)
+                        break
+                    else:
+                        dict_to_return[k] = max(temp_lst)
+                print(temp_lst)
+
+    print(dict_to_return)
+           
+    for i in range(len(data)):
+        for j in range(len(data[i])):
+            lst_to_return.append(dict_to_return[data[i][j]])
+    return lst_to_return
