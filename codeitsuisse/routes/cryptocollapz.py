@@ -35,8 +35,6 @@ def max_value_checker(i):
     
     else:
         while num not in lst:
-            if i == 1 or i == 2:
-                return 4
 
             if num % 2 == 0:
                 lst.append(num)
