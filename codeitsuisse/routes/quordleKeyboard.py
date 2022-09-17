@@ -12,13 +12,13 @@ def quordleKeyboard():
     data = request.get_json()
     logging.info("data sent for evaluation {}".format(data))
     answers = data["answers"]
-    attemps = data["attemps"]
+    attempts = data["attempts"]
     numbers = data["numbers"]
-    result = keyboard(answers, attemps, numbers)
+    result = keyboard(answers, attempts, numbers)
     logging.info("My result :{}".format(result))
     return json.dumps(result)
 
-def keyboard(answers, attemps, numbers):
+def keyboard(answers, attempts, numbers):
     i = 9
     alphabet = {}
     print(set(''.join(answers)))

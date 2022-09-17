@@ -7,4 +7,5 @@ import codeitsuisse.routes.cryptocollapz
 import codeitsuisse.routes.calendarDays
 import codeitsuisse.routes.reversle
 import codeitsuisse.routes.rubiks
+import codeitsuisse.routes.quordleKeyboard
 
