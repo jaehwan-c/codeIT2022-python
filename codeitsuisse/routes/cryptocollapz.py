@@ -17,28 +17,63 @@ def cryptocollapz():
     return json.dumps(result)
 
 def crypto_func(data):
+    lst_to_return = list()
+    dict_to_return = dict()
     
-    def coin(i,max_value):
-        temp = 0
-        if i%2 == 0:
-            if ((i&(i-1))==0) and (i>2):
-                if i > max_value:
-                    max_value = i
-                return max_value
+    dict_to_return[1] = 4
+    dict_to_return[2] = 4
+    for i in range(len(data)):
+        test_lst = list()
+        for j in range(len(data[i])):
+            
+            if data[i][j] in dict_to_return:
+                print(data[i][j])
+                test_lst.append(dict_to_return[data[i][j]])
+                continue
+            
             else:
-                if i > max_value:
-                    max_value = i
-                return coin(i//2,max_value)
-        elif i%2 == 1:
-            if i > max_value:
-                max_value = i
-            return coin((i*3)+1,max_value)
-    
-    solution = []   
-    for i in data:
-        temp = []
-        for j in i:
-            temp.append(coin(j,0))
-        solution.append(temp)
-        
-    return solution
+                temp_lst = list()
+                k = data[i][j]
+            
+                while k > 2:
+                
+                    if k%2 == 0:
+                        
+                        temp_lst.append(k)
+                        k //= 2
+                        if k in dict_to_return:
+                            if max(temp_lst) > dict_to_return[k]:
+                                dict_to_return[data[i][j]] = max(temp_lst)
+                                test_lst.append(max(temp_lst))
+                                break
+                            else:                        
+                                dict_to_return[data[i][j]] = dict_to_return[k]
+                                test_lst.append(dict_to_return[k])
+                                break
+                    else:
+                        
+                        temp_lst.append(k)
+                        k = k*3 + 1
+                else:
+                    for k in temp_lst:
+                        if k in dict_to_return:
+                            if max(temp_lst) > dict_to_return[k]:
+                                dict_to_return[data[i][j]] = max(temp_lst)
+                                test_lst.append(max(temp_lst))
+                                break
+                            else:                        
+                                dict_to_return[data[i][j]] = dict_to_return[k]
+                                test_lst.append(max(temp_lst))
+                                break
+                        elif k == max(temp_lst):
+                            dict_to_return[k] = max(temp_lst)
+                            break
+                        else:
+                            dict_to_return[k] = max(temp_lst)
+                            
+                    test_lst.append(dict_to_return[data[i][j]])
+            print(temp_lst)
+        lst_to_return.append(test_lst)
+
+
+    return lst_to_return
