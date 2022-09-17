@@ -78,5 +78,5 @@ def calendar1(numbers):
             part2 = part2.astype(datetime)
             part2_solution.append(part2.timetuple().tm_yday)
 
-    dict_to_return = {"part1":solution,"part2":part2_solution}
+    dict_to_return = {"part1":solution,"part2":[]}
     return dict_to_return
