@@ -18,4 +18,4 @@ def instantiateDNSLookup():
 
 def dns(table):
     
-    return {"content":table,"success": True}
+    return {"success": True}
