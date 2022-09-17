@@ -27,17 +27,22 @@ def crypto_func(data):
     return lst_to_return
 
 def max_value_checker(i):
-    index = i
+    num = i
     lst = []
+    
     if i == 1 or i == 2:
         return 4
+    
     else:
-        while index != 1:
-            if index % 2 == 0:
-                lst.append(index)
-                index = index // 2
+        while num not in lst:
+            if i == 1 or i == 2:
+                return 4
+
+            if num % 2 == 0:
+                lst.append(num)
+                num = num // 2
             else:
-                lst.append(index)
-                index = index * 3 + 1
+                lst.append(num)
+                num = 3 * num + 1
         else:
             return max(lst)
