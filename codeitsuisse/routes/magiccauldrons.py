@@ -20,5 +20,5 @@ def magiccauldrons():
     return json.dumps(result)
 
 def cell(data_cell):
-    
-    return data
+    x = data_cell
+    return x
