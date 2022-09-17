@@ -39,27 +39,8 @@ def crypto_func(data):
                         if num in dict_to_return.keys():
                             temp_lst.append(dict_to_return[num])
                 else:
+                    dict_to_return[data[i][j]] = max(lst)
                     temp_lst.append(max(lst))
             
         lst_to_return.append(temp_lst)
     return lst_to_return
-
-def max_value_checker(i, dict_to_return):
-    num = i
-    lst = []
-    
-    if i == 1 or i == 2:
-        return 4
-    
-    else:
-        while num not in lst:
-            if num % 2 == 0:
-                lst.append(num)
-                num = num // 2
-                if num in dict_to_return.keys():
-                    return dict_to_return[num]
-            else:
-                lst.append(num)
-                num = 3 * num + 1
-        else:
-            return max(lst)
