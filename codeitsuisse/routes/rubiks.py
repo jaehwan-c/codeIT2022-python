@@ -92,8 +92,6 @@ def rubik_cube(ops, state):
                     final_state[1][2], final_state[2][2], final_state[3][2], final_state[4][2] = final_state[4][2], final_state[1][2], final_state[2][2], final_state[3][2]
             else:
                 final_state[1][2], final_state[2][2], final_state[3][2], final_state[4][2] = final_state[4][2], final_state[1][2], final_state[2][2], final_state[3][2]
-        
-        print(final_state)
     
     dict_to_return = dict()
     
