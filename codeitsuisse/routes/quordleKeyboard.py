@@ -50,7 +50,7 @@ def keyboard(answers, attempts, numbers):
             else:
                 temp.append('0')
         binary.append(''.join(temp))
-    art2_alphabet = []
+    part2_alphabet = []
     for b in binary:
         part2_alphabet.append(chr(int(b,2)+64))
 
